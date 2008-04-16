@@ -184,7 +184,7 @@ def _readFortunes(fortuneFile):
             result = []
             start = None
         else:
-            if not start:
+            if start == None:
                 start = pos
             result.append(line)
         pos += len(line)
