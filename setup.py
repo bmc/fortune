@@ -26,7 +26,7 @@ setup (name             = 'fortune',
        install_requires = ['grizzled>=0.2'],
        classifiers = [
         'Intended Audience :: End Users/Desktop',
-        'Operating SYstem :: OS Independent',
+        'Operating System :: OS Independent',
         'Topic :: Games/Entertainment',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python',
