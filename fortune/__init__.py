@@ -180,6 +180,8 @@ def _readFortunes(fortuneFile):
     pos = 0
     for line in fortuneFile:
         if line == "%\n":
+            if pos == 0: # "%" at top of file. Skip it.
+                continue
             yield (start, pos - start, result)
             result = []
             start = None
