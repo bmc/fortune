@@ -1,0 +1,11 @@
+$Id$
+
+fortune: Display random quotes.
+
+To install "fortune" in the default location, type:
+
+	python setup.py install
+
+To install it somewhere else (e.g., your home directory) type:
+
+	python setup.py install --prefix=$HOME
