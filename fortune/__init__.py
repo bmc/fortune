@@ -95,18 +95,18 @@ This is free software, released under the following BSD-like license:
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
-1. Redistributions of source code must retain the above copyright notice,
+ - Redistributions of source code must retain the above copyright notice,
    this list of conditions and the following disclaimer.
 
-2. The end-user documentation included with the redistribution, if any,
+ - The end-user documentation included with the redistribution, if any,
    must include the following acknowlegement:
 
-      This product includes software developed by Brian M. Clapper
-      (bmc@clapper.org, U{http://www.clapper.org/bmc/}). That software is
-      copyright (c) 2008 Brian M. Clapper.
+   This product includes software developed by Brian M. Clapper
+   (bmc@clapper.org, http://www.clapper.org/bmc/). That software is
+   copyright (c) 2008 Brian M. Clapper.
 
-    Alternately, this acknowlegement may appear in the software itself, if
-    and wherever such third-party acknowlegements normally appear.
+   Alternately, this acknowlegement may appear in the software itself, if
+   and wherever such third-party acknowlegements normally appear.
 
 THIS SOFTWARE IS PROVIDED B{AS IS} AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
