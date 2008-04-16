@@ -159,7 +159,7 @@ def getRandomFortune(fortuneFile):
     """
     fortuneIndexFile = fortuneFile + '.dat'
     if not os.path.exists(fortuneIndexFile):
-        raise ValueError, 'Can\'t find file "%s"' % fortuneDat
+        raise ValueError, 'Can\'t find file "%s"' % fortuneIndexFile
 
     fortuneIndex = open(fortuneIndexFile)
     data = pickle.load(fortuneIndex)
