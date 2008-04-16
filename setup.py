@@ -25,7 +25,9 @@ setup (name             = 'fortune',
        entry_points     = {'console_scripts' : ['fortune=fortune:main']},
        install_requires = ['grizzled>=0.2'],
        classifiers = [
-        'Intended Audience :: System Administrators',
+        'Intended Audience :: End Users/Desktop',
+        'Operating SYstem :: OS Independent',
+        'Topic :: Games/Entertainment',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python',
         'Topic :: Text Processing :: Filters'
