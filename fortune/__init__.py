@@ -247,10 +247,14 @@ def main():
         except KeyError:
             argParser.showUsage('Missing fortune file.')
 
-    if options.update:
-        makeFortuneDataFile(fortuneFile)
-    else:
-        sys.stdout.write(getRandomFortune(fortuneFile))
+    try:
+        if options.update:
+            makeFortuneDataFile(fortuneFile)
+        else:
+            sys.stdout.write(getRandomFortune(fortuneFile))
+    except ValueError, msg:
+        print >> sys.stderr, msg
+        sys.exit(1)
 
 if __name__ == '__main__':
     main()
