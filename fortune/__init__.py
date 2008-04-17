@@ -19,7 +19,8 @@ Usage::
 
     OPTIONS
 
-    -u, --update    Update the index file
+    -u, --update    Update the index file.
+    -q, --quiet     When updating the index file, do so quietly.
 
 If you omit the path, C{fortune} looks at the C{FORTUNE_FILE} environment
 variable. If that environment variable isn't set, C{fortune} aborts.
@@ -31,7 +32,6 @@ A fortune cookie file is a text file full of quotes. The format is simple:
 The file consists of paragraphs separated by lines containing a single '%'
 character. For example::
 
-    %
     A little caution outflanks a large cavalry.
         -- Bismarck
     %
