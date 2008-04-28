@@ -164,7 +164,7 @@ def getRandomFortune(fortuneFile):
     fortuneIndex = open(fortuneIndexFile)
     data = pickle.load(fortuneIndex)
     fortuneIndex.close()
-    randomRecord = random.randint(0, len(data))
+    randomRecord = random.randint(0, len(data) - 1)
     (start, length) = data[randomRecord]
 
     f = open(fortuneFile)
