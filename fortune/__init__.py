@@ -134,7 +134,7 @@ from grizzled.cmdline import CommandLineParser
 # Exports
 # ---------------------------------------------------------------------------
 
-__all__ = ['main', 'getRandomFortune', 'makeFortuneDataFile']
+__all__ = ['main', 'get_random_fortune', 'make_fortune_data_file']
 
 # ---------------------------------------------------------------------------
 # Internal Constants
@@ -146,7 +146,7 @@ _PICKLE_PROTOCOL = 2
 # Functions
 # ---------------------------------------------------------------------------
 
-def getRandomFortune(fortuneFile):
+def get_random_fortune(fortuneFile):
     """
     Get a random fortune from the specified file. Barfs if the corresponding
     C{.dat} file isn't present.
@@ -173,7 +173,7 @@ def getRandomFortune(fortuneFile):
     f.close()
     return fortuneCookie
 
-def _readFortunes(fortuneFile):
+def _read_fortunes(fortuneFile):
     """ Yield fortunes as lists of lines """
     result = []
     start = None
@@ -194,7 +194,7 @@ def _readFortunes(fortuneFile):
     if result:
         yield (start, pos - start, result)
 
-def makeFortuneDataFile(fortuneFile, quiet=False):
+def make_fortune_data_file(fortuneFile, quiet=False):
     """
     Create or update the data file for a fortune cookie file.
 
@@ -211,7 +211,7 @@ def makeFortuneDataFile(fortuneFile, quiet=False):
     data = []
     shortest = sys.maxint
     longest = 0
-    for start, length, fortune in _readFortunes(open(fortuneFile)):
+    for start, length, fortune in _read_fortunes(open(fortuneFile)):
         data += [(start, length)]
         shortest = min(shortest, length)
         longest = max(longest, length)
@@ -229,31 +229,31 @@ def main():
     Main program.
     """
     usage = 'Usage: %s [OPTIONS] fortuneFile' % os.path.basename(sys.argv[0])
-    argParser = CommandLineParser(usage=usage)
-    argParser.addOption('-u', '--update', action='store_true', dest='update',
-                        help='Update the index file, instead of printing a '
-                             'fortune.')
-    argParser.addOption('-q', '--quiet', action='store_true', dest='quiet',
-                        help="When updating the index file, don't emit " \
-                             "messages.")
+    arg_parser = CommandLineParser(usage=usage)
+    arg_parser.add_option('-u', '--update', action='store_true', dest='update',
+                          help='Update the index file, instead of printing a '
+                               'fortune.')
+    arg_parser.add_option('-q', '--quiet', action='store_true', dest='quiet',
+                          help="When updating the index file, don't emit " \
+                               "messages.")
 
-    argParser.epilogue = 'If <fortuneFile> is omitted, fortune looks at the ' \
-                         'FORTUNE_FILE environment variable for the path.'
+    arg_parser.epilogue = 'If <fortuneFile> is omitted, fortune looks at the ' \
+                          'FORTUNE_FILE environment variable for the path.'
 
-    options, args = argParser.parseArgs(sys.argv)
+    options, args = arg_parser.parse_args(sys.argv)
     if len(args) == 2:
         fortuneFile = args[1]
     else:
         try:
             fortuneFile = os.environ['FORTUNE_FILE']
         except KeyError:
-            argParser.showUsage('Missing fortune file.')
+            arg_parser.show_usage('Missing fortune file.')
 
     try:
         if options.update:
-            makeFortuneDataFile(fortuneFile)
+            make_fortune_data_file(fortuneFile)
         else:
-            sys.stdout.write(getRandomFortune(fortuneFile))
+            sys.stdout.write(get_random_fortune(fortuneFile))
     except ValueError, msg:
         print >> sys.stderr, msg
         sys.exit(1)
