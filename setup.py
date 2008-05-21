@@ -15,7 +15,7 @@ import os
 # Now the setup stuff.
 
 setup (name             = 'fortune',
-       version          = '0.3',
+       version          = '0.4',
        description      = 'Python version of old BSD Unix fortune program',
        packages         = find_packages(),
        url              = 'http://www.clapper.org/software/python/fortune',

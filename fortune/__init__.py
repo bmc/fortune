@@ -167,7 +167,7 @@ def get_random_fortune(fortuneFile):
     randomRecord = random.randint(0, len(data) - 1)
     (start, length) = data[randomRecord]
 
-    f = open(fortuneFile)
+    f = open(fortuneFile, 'rU')
     f.seek(start)
     fortuneCookie = f.read(length)
     f.close()
@@ -211,7 +211,7 @@ def make_fortune_data_file(fortuneFile, quiet=False):
     data = []
     shortest = sys.maxint
     longest = 0
-    for start, length, fortune in _read_fortunes(open(fortuneFile)):
+    for start, length, fortune in _readFortunes(open(fortuneFile, 'rU')):
         data += [(start, length)]
         shortest = min(shortest, length)
         longest = max(longest, length)

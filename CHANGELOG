@@ -2,6 +2,11 @@ Change log for fortune
 
 $Id$
 
+Version 0.4 (...)
+
+- Fortune cookie file is now opened in universal newline mode.
+
+---------------------------------------------------------------------------
 
 Version 0.3 (20 May, 2008)
 
