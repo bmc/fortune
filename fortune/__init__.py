@@ -4,11 +4,11 @@
 Introduction
 ============
 
-C{fortune} is a stripped-down implementation of the classic BSD Unix
-C{fortune} command. It combines the capabilities of the C{strfile} command
-(which produces the fortune index file) and the C{fortune} command (which
-displays a random fortune). It reads the traditional C{fortune} program's text
-file format.
+``fortune`` is a stripped-down implementation of the classic BSD Unix
+``fortune`` command. It combines the capabilities of the ``strfile`` command
+(which produces the fortune index file) and the ``fortune`` command (which
+displays a random fortune). It reads the traditional ``fortune`` program's
+text file format.
 
 Usage
 =====
@@ -22,8 +22,8 @@ Usage::
     -u, --update    Update the index file.
     -q, --quiet     When updating the index file, do so quietly.
 
-If you omit the path, C{fortune} looks at the C{FORTUNE_FILE} environment
-variable. If that environment variable isn't set, C{fortune} aborts.
+If you omit the path, ``fortune`` looks at the ``FORTUNE_FILE`` environment
+variable. If that environment variable isn't set, ``fortune`` aborts.
 
 Fortune Cookie File Format
 ==========================
@@ -51,12 +51,12 @@ character. For example::
 The Index File
 ==============
 
-For efficiency and speed, C{fortune} uses an index file to store the offsets
+For efficiency and speed, ``fortune`` uses an index file to store the offsets
 and lengths of every fortune in the text fortune file. So, before you can use
-C{fortune} to read a random fortune, you have to generate the data file. With
-the traditional BSD C{fortune} program, you used the I{strfile}(8) command
+``fortune`` to read a random fortune, you have to generate the data file. With
+the traditional BSD ``fortune`` program, you used the I{strfile}(8) command
 to generate the index. With I{this} fortune program, however, you simply
-pass a special argument to the C{fortune} command::
+pass a special argument to the ``fortune`` command::
 
     fortune -u /path/to/fortunes
 
@@ -68,19 +68,19 @@ Generating a Random Fortune
 ===========================
 
 Once you have an index file, you can generate a random fortune simply by
-running the C{fortune} utility with the path to your text fortunes file::
+running the ``fortune`` utility with the path to your text fortunes file::
 
     fortune /path/to/fortunes
 
 Differences
 ===========
 
-This version of C{fortune} does not provide some of the more advanced
+This version of ``fortune`` does not provide some of the more advanced
 capabilities of the original BSD program. For instance, it lacks:
 
-    - the ability to mark offensive and inoffensive fortunes
-    - the ability to separate long and short quotes
-    - the ability to print all fortunes matching a regular expression
+- the ability to mark offensive and inoffensive fortunes
+- the ability to separate long and short quotes
+- the ability to print all fortunes matching a regular expression
 
 It does, however, provide the most important function: The ability to display
 a random quote from a set of quotes.
@@ -146,18 +146,19 @@ _PICKLE_PROTOCOL = 2
 # Functions
 # ---------------------------------------------------------------------------
 
-def get_random_fortune(fortuneFile):
+def get_random_fortune(fortune_file):
     """
     Get a random fortune from the specified file. Barfs if the corresponding
-    C{.dat} file isn't present.
+    ``.dat`` file isn't present.
 
-    @type fortuneFile:  str
-    @param fortuneFile: path to file containing fortune cookies
+    :Parameters:
+        fortune_file : str
+            path to file containing fortune cookies
 
-    @rtype:  str
-    @return: the random fortune
+    :rtype:  str
+    :return: the random fortune
     """
-    fortuneIndexFile = fortuneFile + '.dat'
+    fortuneIndexFile = fortune_file + '.dat'
     if not os.path.exists(fortuneIndexFile):
         raise ValueError, 'Can\'t find file "%s"' % fortuneIndexFile
 
@@ -167,18 +168,18 @@ def get_random_fortune(fortuneFile):
     randomRecord = random.randint(0, len(data) - 1)
     (start, length) = data[randomRecord]
 
-    f = open(fortuneFile, 'rU')
+    f = open(fortune_file, 'rU')
     f.seek(start)
     fortuneCookie = f.read(length)
     f.close()
     return fortuneCookie
 
-def _read_fortunes(fortuneFile):
+def _read_fortunes(fortune_file):
     """ Yield fortunes as lists of lines """
     result = []
     start = None
     pos = 0
-    for line in fortuneFile:
+    for line in fortune_file:
         if line == "%\n":
             if pos == 0: # "%" at top of file. Skip it.
                 continue
@@ -194,24 +195,24 @@ def _read_fortunes(fortuneFile):
     if result:
         yield (start, pos - start, result)
 
-def make_fortune_data_file(fortuneFile, quiet=False):
+def make_fortune_data_file(fortune_file, quiet=False):
     """
     Create or update the data file for a fortune cookie file.
 
-    @type fortuneFile:  str
-    @param fortuneFile: path to file containing fortune cookies
-
-    @type quiet:  boolean
-    @param quiet: If C{True}
+    :Parameters:
+        fortune_file : str
+            path to file containing fortune cookies
+        quiet : bool
+            If ``True``, don't display progress messages
     """
-    fortuneIndexFile = fortuneFile + '.dat'
+    fortuneIndexFile = fortune_file + '.dat'
     if not quiet:
-        print 'Updating "%s" from "%s"...' % (fortuneIndexFile, fortuneFile)
+        print 'Updating "%s" from "%s"...' % (fortuneIndexFile, fortune_file)
 
     data = []
     shortest = sys.maxint
     longest = 0
-    for start, length, fortune in _readFortunes(open(fortuneFile, 'rU')):
+    for start, length, fortune in _readFortunes(open(fortune_file, 'rU')):
         data += [(start, length)]
         shortest = min(shortest, length)
         longest = max(longest, length)
@@ -228,7 +229,7 @@ def main():
     """
     Main program.
     """
-    usage = 'Usage: %s [OPTIONS] fortuneFile' % os.path.basename(sys.argv[0])
+    usage = 'Usage: %s [OPTIONS] fortune_file' % os.path.basename(sys.argv[0])
     arg_parser = CommandLineParser(usage=usage)
     arg_parser.add_option('-u', '--update', action='store_true', dest='update',
                           help='Update the index file, instead of printing a '
@@ -237,23 +238,23 @@ def main():
                           help="When updating the index file, don't emit " \
                                "messages.")
 
-    arg_parser.epilogue = 'If <fortuneFile> is omitted, fortune looks at the ' \
+    arg_parser.epilogue = 'If <fortune_file> is omitted, fortune looks at the ' \
                           'FORTUNE_FILE environment variable for the path.'
 
     options, args = arg_parser.parse_args(sys.argv)
     if len(args) == 2:
-        fortuneFile = args[1]
+        fortune_file = args[1]
     else:
         try:
-            fortuneFile = os.environ['FORTUNE_FILE']
+            fortune_file = os.environ['FORTUNE_FILE']
         except KeyError:
             arg_parser.show_usage('Missing fortune file.')
 
     try:
         if options.update:
-            make_fortune_data_file(fortuneFile)
+            make_fortune_data_file(fortune_file)
         else:
-            sys.stdout.write(get_random_fortune(fortuneFile))
+            sys.stdout.write(get_random_fortune(fortune_file))
     except ValueError, msg:
         print >> sys.stderr, msg
         sys.exit(1)

@@ -15,7 +15,7 @@ import os
 # Now the setup stuff.
 
 setup (name             = 'fortune',
-       version          = '0.4',
+       version          = '0.5',
        description      = 'Python version of old BSD Unix fortune program',
        packages         = find_packages(),
        url              = 'http://www.clapper.org/software/python/fortune',
@@ -23,7 +23,7 @@ setup (name             = 'fortune',
        author           = 'Brian M. Clapper',
        author_email     = 'bmc@clapper.org',
        entry_points     = {'console_scripts' : ['fortune=fortune:main']},
-       install_requires = ['grizzled>=0.2'],
+       install_requires = ['grizzled>=0.6'],
        classifiers = [
         'Intended Audience :: End Users/Desktop',
         'Operating System :: OS Independent',

@@ -1,6 +1,14 @@
 Change log for fortune
 
 $Id$
+---------------------------------------------------------------------------
+
+
+Version 0.5 (...)
+
+- Embedded epydoc documentation now uses reStructuredText.
+
+---------------------------------------------------------------------------
 
 Version 0.4 (21 May, 2008)
 

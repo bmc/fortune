@@ -3,7 +3,7 @@
  * This stylesheet can be used to customize the appearance of epydoc's
  * HTML output.
  *
- * $Id: epydoc.css 7348 2008-03-27 16:11:56Z bmc $
+ * $Id: epydoc.css 7679 2008-05-31 03:18:18Z bmc $
  */
 
 /* Default Colors & Styles
@@ -23,10 +23,10 @@ dt                          { font-weight: bold; }
 h1                          { font-size: +140%; font-style: normal;
                               font-weight: bold;
                               font-family: Arial, Helvetica, sans-serif; }
-h2                          { font-size: +125%; font-style: italic;
+h2                          { font-size: +125%; font-style: normal;
                               font-weight: bold;
                               font-family: Arial, Helvetica, sans-serif; }
-h3                          { font-size: +110%; 
+h3                          { font-size: +110%; font-style: italic;
                               font-weight: bold;
                               font-family: Arial, Helvetica, sans-serif; }
 code                        { font-size: 100%; }
@@ -323,3 +323,11 @@ p.log                       { font-weight: bold; margin: .5em 0 .5em 0; }
 tr.opt-changed              { color: #000000; font-weight: bold; }
 tr.opt-default              { color: #606060; }
 pre.log                     { margin: 0; padding: 0; padding-left: 1em; }
+
+
+/* Restructured text */
+
+pre.rst-literal-block       { margin-left: 3em; margin-top: 1em;
+                              margin-bottom: 1em; margin-right: 0em; }
+ul.rst-simple li            { margin-left: -1em; margin-top: 0em;
+                              margin-bottom: 0em; margin-right: 0em; }
