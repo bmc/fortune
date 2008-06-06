@@ -158,11 +158,11 @@ def get_random_fortune(fortune_file):
     :rtype:  str
     :return: the random fortune
     """
-    fortuneIndexFile = fortune_file + '.dat'
-    if not os.path.exists(fortuneIndexFile):
-        raise ValueError, 'Can\'t find file "%s"' % fortuneIndexFile
+    fortune_index_file = fortune_file + '.dat'
+    if not os.path.exists(fortune_index_file):
+        raise ValueError, 'Can\'t find file "%s"' % fortune_index_file
 
-    fortuneIndex = open(fortuneIndexFile)
+    fortuneIndex = open(fortune_index_file)
     data = pickle.load(fortuneIndex)
     fortuneIndex.close()
     randomRecord = random.randint(0, len(data) - 1)
@@ -205,19 +205,19 @@ def make_fortune_data_file(fortune_file, quiet=False):
         quiet : bool
             If ``True``, don't display progress messages
     """
-    fortuneIndexFile = fortune_file + '.dat'
+    fortune_index_file = fortune_file + '.dat'
     if not quiet:
-        print 'Updating "%s" from "%s"...' % (fortuneIndexFile, fortune_file)
+        print 'Updating "%s" from "%s"...' % (fortune_index_file, fortune_file)
 
     data = []
     shortest = sys.maxint
     longest = 0
-    for start, length, fortune in _readFortunes(open(fortune_file, 'rU')):
+    for start, length, fortune in _read_fortunes(open(fortune_file, 'rU')):
         data += [(start, length)]
         shortest = min(shortest, length)
         longest = max(longest, length)
 
-    fortuneIndex = open(fortuneIndexFile, 'wb')
+    fortuneIndex = open(fortune_index_file, 'wb')
     pickle.dump(data, fortuneIndex, _PICKLE_PROTOCOL)
     fortuneIndex.close()
 
