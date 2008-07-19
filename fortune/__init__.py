@@ -60,8 +60,8 @@ pass a special argument to the ``fortune`` command::
 
     fortune -u /path/to/fortunes
 
-That command will generate a binary C{/path/to/fortunes.dat} file that
-contains the index. You should run C{fortune -u} whenever you change the text
+That command will generate a binary ``/path/to/fortunes.dat`` file that
+contains the index. You should run ``fortune -u`` whenever you change the text
 fortune file.
 
 Generating a Random Fortune
