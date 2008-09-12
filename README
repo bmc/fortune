@@ -9,3 +9,7 @@ To install "fortune" in the default location, type:
 To install it somewhere else (e.g., your home directory) type:
 
 	python setup.py install --prefix=$HOME
+
+You can also install "fortune" with easy_install:
+
+	easy_install fortune
