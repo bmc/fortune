@@ -19,8 +19,10 @@ Usage::
 
     OPTIONS
 
+    -h, --help      Show usage and exit.
     -u, --update    Update the index file.
     -q, --quiet     When updating the index file, do so quietly.
+    -V, --version   Show version and exit.
 
 If you omit the path, ``fortune`` looks at the ``FORTUNE_FILE`` environment
 variable. If that environment variable isn't set, ``fortune`` aborts.
@@ -136,6 +138,14 @@ from grizzled.cmdline import CommandLineParser
 
 __all__ = ['main', 'get_random_fortune', 'make_fortune_data_file']
 
+# Info about the module
+__version__   = '0.5'
+__author__    = 'Brian M. Clapper'
+__email__     = 'bmc@clapper.org'
+__url__       = 'http://www.clapper.org/software/python/fortune/'
+__copyright__ = '2008-2009 Brian M. Clapper'
+__license__   = 'BSD-style license'
+
 # ---------------------------------------------------------------------------
 # Internal Constants
 # ---------------------------------------------------------------------------
@@ -231,12 +241,14 @@ def main():
     """
     usage = 'Usage: %s [OPTIONS] fortune_file' % os.path.basename(sys.argv[0])
     arg_parser = CommandLineParser(usage=usage)
-    arg_parser.add_option('-u', '--update', action='store_true', dest='update',
-                          help='Update the index file, instead of printing a '
-                               'fortune.')
     arg_parser.add_option('-q', '--quiet', action='store_true', dest='quiet',
                           help="When updating the index file, don't emit " \
                                "messages.")
+    arg_parser.add_option('-u', '--update', action='store_true', dest='update',
+                          help='Update the index file, instead of printing a '
+                               'fortune.')
+    arg_parser.add_option('-V', '--version', action='store_true',
+                          dest='show_version', help='Show version and exit.')
 
     arg_parser.epilogue = 'If <fortune_file> is omitted, fortune looks at the ' \
                           'FORTUNE_FILE environment variable for the path.'
@@ -244,6 +256,7 @@ def main():
     options, args = arg_parser.parse_args(sys.argv)
     if len(args) == 2:
         fortune_file = args[1]
+
     else:
         try:
             fortune_file = os.environ['FORTUNE_FILE']
@@ -251,7 +264,9 @@ def main():
             arg_parser.show_usage('Missing fortune file.')
 
     try:
-        if options.update:
+        if options.show_version:
+            print 'fortune, version %s' % __version__
+        elif options.update:
             make_fortune_data_file(fortune_file)
         else:
             sys.stdout.write(get_random_fortune(fortune_file))

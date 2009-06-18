@@ -1,13 +1,12 @@
 Change log for fortune
-
-$Id$
 ---------------------------------------------------------------------------
-
 
 Version 0.5 (...)
 
 - Embedded epydoc documentation now uses reStructuredText.
 - Got rid of camel case.
+- Updated to new version of ez_setup.py
+- Added --version option.
 
 ---------------------------------------------------------------------------
 
