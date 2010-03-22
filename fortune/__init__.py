@@ -156,6 +156,16 @@ _PICKLE_PROTOCOL = 2
 # Functions
 # ---------------------------------------------------------------------------
 
+def random_int(start, end):
+    try:
+        # Use SystemRandom, if it's available, since it's likely to have
+        # more entropy.
+        r = random.SystemRandom()
+    except:
+        r = random
+
+    return r.randint(start, end)
+
 def get_random_fortune(fortune_file):
     """
     Get a random fortune from the specified file. Barfs if the corresponding
@@ -175,7 +185,7 @@ def get_random_fortune(fortune_file):
     fortuneIndex = open(fortune_index_file)
     data = pickle.load(fortuneIndex)
     fortuneIndex.close()
-    randomRecord = random.randint(0, len(data) - 1)
+    randomRecord = random_int(0, len(data) - 1)
     (start, length) = data[randomRecord]
 
     f = open(fortune_file, 'rU')

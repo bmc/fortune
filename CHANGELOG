@@ -1,12 +1,13 @@
 Change log for fortune
 ---------------------------------------------------------------------------
 
-Version 0.5 (...)
+Version 0.5 (22 March, 2010)
 
 - Embedded epydoc documentation now uses reStructuredText.
 - Got rid of camel case.
 - Updated to new version of ez_setup.py
 - Added --version option.
+- Now uses random.SystemRandom, if it's available.
 
 ---------------------------------------------------------------------------
 
