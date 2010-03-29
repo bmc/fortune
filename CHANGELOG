@@ -1,6 +1,12 @@
 Change log for fortune
 ---------------------------------------------------------------------------
 
+Version 0.5.1 (28 March, 2010)
+
+- Changed URL to new GitHub page.
+
+---------------------------------------------------------------------------
+
 Version 0.5 (22 March, 2010)
 
 - Embedded epydoc documentation now uses reStructuredText.
