@@ -122,7 +122,7 @@ display a random quote from a set of quotes.
 
 ## My Fortune Cookie Database
 
-I have a fortune cookie file that contains more than 2,000 fortunes I've
+I have a fortune cookie file that contains more than 2,500 fortunes I've
 collected, from various sources, over the last 25 years. Feel free to
 download it from <http://github.com/bmc/fortunes/>.
 
