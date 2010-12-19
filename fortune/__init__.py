@@ -142,7 +142,7 @@ __all__ = ['main', 'get_random_fortune', 'make_fortune_data_file']
 __version__   = '0.5.1'
 __author__    = 'Brian M. Clapper'
 __email__     = 'bmc@clapper.org'
-__url__       = 'http://bmc.github.com/fortune/'
+__url__       = 'http://software.clapper.org/fortune/'
 __copyright__ = '2008-2009 Brian M. Clapper'
 __license__   = 'BSD-style license'
 

@@ -1,0 +1,6 @@
+build
+dist
+epydoc
+ez_setup.pyc
+fortune.egg-info/
+*.pyc
