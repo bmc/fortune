@@ -9,8 +9,8 @@ it's similar to the BSD fortune program originally written by [Ken Arnold][].
 Unlike Arnold's program, this version is written in [Python][] and should
 run anywhere there's a Python interpreter.
 
-[Ken Arnold][]: http://en.wikipedia.org/wiki/Ken_Arnold
-[Python][]: http://www.python.org/
+[Ken Arnold]: http://en.wikipedia.org/wiki/Ken_Arnold
+[Python]: http://www.python.org/
 
 ## The fortune cookie database
 
