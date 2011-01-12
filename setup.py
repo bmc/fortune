@@ -35,7 +35,7 @@ def load_info():
                             ('__init__.py', 'r', imp.PY_SOURCE))
         result['long_description'] = m.__doc__
     except:
-        result['long_description'] = DESCRIPTION
+        result['long_description'] = 'Fortune program'
     return result
 
 info = load_info()

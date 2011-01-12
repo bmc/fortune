@@ -139,11 +139,11 @@ from grizzled.cmdline import CommandLineParser
 __all__ = ['main', 'get_random_fortune', 'make_fortune_data_file']
 
 # Info about the module
-__version__   = '0.5.1'
+__version__   = '0.5.2'
 __author__    = 'Brian M. Clapper'
 __email__     = 'bmc@clapper.org'
 __url__       = 'http://software.clapper.org/fortune/'
-__copyright__ = '2008-2009 Brian M. Clapper'
+__copyright__ = '2008-2011 Brian M. Clapper'
 __license__   = 'BSD-style license'
 
 # ---------------------------------------------------------------------------
