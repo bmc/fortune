@@ -5,8 +5,6 @@
 # $Id$
 # ---------------------------------------------------------------------------
 
-import ez_setup
-ez_setup.use_setuptools(download_delay=2)
 from setuptools import setup, find_packages
 
 import sys
@@ -42,7 +40,12 @@ info = load_info()
 
 # Now the setup stuff.
 
-setup(name             = 'fortune',
+NAME = 'fortune'
+DOWNLOAD_URL = ('http://pypi.python.org/packages/source/f/%s/%s-%s.tar.gz' %
+                (NAME, NAME, info['__version__']))
+
+setup(name             = NAME,
+      download_url     = DOWNLOAD_URL,
       version          = info['__version__'],
       description      = 'Python version of old BSD Unix fortune program',
       long_description = info['long_description'],
@@ -52,7 +55,7 @@ setup(name             = 'fortune',
       author           = info['__author__'],
       author_email     = info['__email__'],
       entry_points     = {'console_scripts' : ['fortune=fortune:main']},
-      install_requires = ['grizzled>=0.6'],
+      install_requires = ['grizzled-python>=1.0'],
       classifiers      = ['Intended Audience :: End Users/Desktop',
                           'Operating System :: OS Independent',
                           'Topic :: Games/Entertainment',

@@ -1,6 +1,20 @@
 Change log for fortune
 ---------------------------------------------------------------------------
 
+Version 1.0 (14 March, 2011)
+
+- Removed setup.py dependency on ez_setup.
+- Graduated to 1.0; it's been stable long enough now.
+- Changed to refer to 'grizzled-python', instead of 'grizzled'
+
+---------------------------------------------------------------------------
+
+Version 0.5.2 (11 January, 2011)
+
+- Minor change to setup.py to handle import failure
+
+---------------------------------------------------------------------------
+
 Version 0.5.1 (28 March, 2010)
 
 - Changed URL to new GitHub page.
