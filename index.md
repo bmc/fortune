@@ -76,13 +76,13 @@ environment variable isn't set, *fortune* aborts with an error.
 
 ## Getting and installing *fortune*
 
-### Installing via EasyInstall
+### Installing via pip
 
-Because *fortune* is available via [PyPI][], if you have [EasyInstall][]
-installed on your system, installing *fortune* is as easy as running this
-command (usually as `root` or the system administrator):
+Because *fortune* is available via [PyPI][], if you have [pip][] installed
+on your system, installing *fortune* is as easy as running this command
+(usually as `root` or the system administrator):
 
-    easy_install fortune
+    pip install fortune
 
 ### Installing from source
 
@@ -94,9 +94,8 @@ the following commands:
     $ git clone git://github.com/bmc/fortune.git
     $ git clone http://github.com/bmc/fortune.git
 
-[EasyInstall]: http://peak.telecommunity.com/DevCenter/EasyInstall
-[PyPI]: http://pypi.python.org/pypi
-[Git repository]: http://github.com/bmc/fortune.git
+If you don't have [git][], you can download the source distribution, as a
+zipfile or a tarball, from the [Git repository][].
 
 Once you have a local `fortune` source directory, change your working directory
 to the source directory, and type:
@@ -130,8 +129,6 @@ download it from <http://github.com/bmc/fortunes/>.
 
 Brian M. Clapper, [bmc@clapper.org][]
 
-[bmc@clapper.org]: mailto:bmc@clapper.org
-
 ## Copyright
 
 Copyright &copy; 2008-2010 Brian M. Clapper
@@ -141,3 +138,8 @@ Copyright &copy; 2008-2010 Brian M. Clapper
 BSD license. See accompanying [license][] file.
 
 [license]: license.html
+[pip]: http://pip-installer.org/
+[PyPI]: http://pypi.python.org/pypi
+[Git repository]: http://github.com/bmc/fortune.git
+[bmc@clapper.org]: mailto:bmc@clapper.org
+[git]: http://git-scm.com/
