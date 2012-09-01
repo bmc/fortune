@@ -121,7 +121,7 @@ display a random quote from a set of quotes.
 
 ## My Fortune Cookie Database
 
-I have a fortune cookie file that contains more than 2,500 fortunes I've
+I have a fortune cookie file that contains more than 2,800 fortunes I've
 collected, from various sources, over the last 25 years. Feel free to
 download it from <http://github.com/bmc/fortunes/>.
 
@@ -131,7 +131,7 @@ Brian M. Clapper, [bmc@clapper.org][]
 
 ## Copyright
 
-Copyright &copy; 2008-2010 Brian M. Clapper
+Copyright &copy; 2008-2012 Brian M. Clapper
 
 ## License
 
