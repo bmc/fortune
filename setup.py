@@ -1,9 +1,4 @@
 #!/usr/bin/env python
-#
-# EasyInstall setup script for paragrep
-#
-# $Id$
-# ---------------------------------------------------------------------------
 
 from setuptools import setup, find_packages
 
@@ -13,47 +8,60 @@ import imp
 
 # Load the long description
 
+if sys.version_info[0:2] < (3, 6):
+    columns = int(os.environ.get('COLUMNS', '80')) - 1
+    msg = ('As of version 1.1.0, this fortune package no longer supports ' +
+           'Python 2. Either upgrade to Python 3.6 or better, or use an ' +
+           'older version of fortune (e.g., 1.0.1).')
+    sys.stderr.write(msg + '\n')
+    raise Exception(msg)
+
+# Load the module.
+
+here = os.path.dirname(os.path.abspath(sys.argv[0]))
+
+def import_from_file(file, name):
+    # See https://stackoverflow.com/a/19011259/53495
+    import importlib.machinery
+    import importlib.util
+    loader = importlib.machinery.SourceFileLoader(name, file)
+    spec = importlib.util.spec_from_loader(loader.name, loader)
+    mod = importlib.util.module_from_spec(spec)
+    loader.exec_module(mod)
+    return mod
+
 def load_info():
     import re
 
     # Look for identifiers beginning with "__" at the beginning of the line.
 
     result = {}
-    pattern = re.compile(r'^(__\w+__)\s*=\s*[\'"]([^\'"]*)[\'"]')
-    here = os.path.dirname(os.path.abspath(sys.argv[0]))
-    for line in open(os.path.join(here, 'fortune', '__init__.py'), 'r'):
-        match = pattern.match(line)
-        if match:
-            result[match.group(1)] = match.group(2)
+    mod = import_from_file(os.path.join(here, 'fortune', '__init__.py'),
+                           'fortune')
 
-    sys.path = [here] + sys.path
-    mf = os.path.join(here, 'fortune', '__init__.py')
-    try:
-        m = imp.load_module('fortune', open(mf), mf,
-                            ('__init__.py', 'r', imp.PY_SOURCE))
-        result['long_description'] = m.__doc__
-    except:
-        result['long_description'] = 'Fortune program'
+    result['version'] = mod.__version__
+    result['long_description'] = mod.__doc__
+    result['license'] = mod.__license__
+    result['email'] = mod.__email__
+    result['url'] = mod.__url__
+    result['author'] = mod.__author__
+    result['copyright'] = mod.__copyright__
+
     return result
 
 info = load_info()
 
 # Now the setup stuff.
 
-NAME = 'fortune'
-DOWNLOAD_URL = ('http://pypi.python.org/packages/source/f/%s/%s-%s.tar.gz' %
-                (NAME, NAME, info['__version__']))
-
-setup(name             = NAME,
-      download_url     = DOWNLOAD_URL,
-      version          = info['__version__'],
+setup(name             = 'fortune',
+      version          = info['version'],
       description      = 'Python version of old BSD Unix fortune program',
       long_description = info['long_description'],
       packages         = find_packages(),
-      url              = info['__url__'],
-      license          = info['__license__'],
-      author           = info['__author__'],
-      author_email     = info['__email__'],
+      url              = info['url'],
+      license          = info['license'],
+      author           = info['author'],
+      author_email     = info['email'],
       entry_points     = {'console_scripts' : ['fortune=fortune:main']},
       install_requires = ['grizzled-python>=1.0'],
       classifiers      = ['Intended Audience :: End Users/Desktop',

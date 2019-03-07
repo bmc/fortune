@@ -1,19 +1,15 @@
-# $Id$
-
 """
-Introduction
-============
+# Introduction
 
-``fortune`` is a stripped-down implementation of the classic BSD Unix
-``fortune`` command. It combines the capabilities of the ``strfile`` command
-(which produces the fortune index file) and the ``fortune`` command (which
-displays a random fortune). It reads the traditional ``fortune`` program's
+`fortune` is a stripped-down implementation of the classic BSD Unix
+`fortune` command. It combines the capabilities of the `strfile` command
+(which produces the fortune index file) and the `fortune` command (which
+displays a random fortune). It reads the traditional `fortune` program's
 text file format.
 
-Usage
-=====
+# Usage
 
-Usage::
+Usage:
 
     fortune [OPTIONS] /path/to/fortunes
 
@@ -24,11 +20,10 @@ Usage::
     -q, --quiet     When updating the index file, do so quietly.
     -V, --version   Show version and exit.
 
-If you omit the path, ``fortune`` looks at the ``FORTUNE_FILE`` environment
-variable. If that environment variable isn't set, ``fortune`` aborts.
+If you omit the path, `fortune` looks at the `FORTUNE_FILE` environment
+variable. If that environment variable isn't set, `fortune` aborts.
 
-Fortune Cookie File Format
-==========================
+# Fortune Cookie File Format
 
 A fortune cookie file is a text file full of quotes. The format is simple:
 The file consists of paragraphs separated by lines containing a single '%'
@@ -50,34 +45,19 @@ character. For example::
         -- John Barrymore
 
 
-The Index File
-==============
+# Generating a Random Fortune
 
-For efficiency and speed, ``fortune`` uses an index file to store the offsets
-and lengths of every fortune in the text fortune file. So, before you can use
-``fortune`` to read a random fortune, you have to generate the data file. With
-the traditional BSD ``fortune`` program, you used the I{strfile}(8) command
-to generate the index. With I{this} fortune program, however, you simply
-pass a special argument to the ``fortune`` command::
-
-    fortune -u /path/to/fortunes
-
-That command will generate a binary ``/path/to/fortunes.dat`` file that
-contains the index. You should run ``fortune -u`` whenever you change the text
-fortune file.
-
-Generating a Random Fortune
-===========================
-
-Once you have an index file, you can generate a random fortune simply by
-running the ``fortune`` utility with the path to your text fortunes file::
+Just run:
 
     fortune /path/to/fortunes
 
-Differences
-===========
+If your `FORTUNE_FILE` environment variable is set, you can run it as
 
-This version of ``fortune`` does not provide some of the more advanced
+    fortune
+
+# Differences
+
+This version of `fortune` does not provide some of the more advanced
 capabilities of the original BSD program. For instance, it lacks:
 
 - the ability to mark offensive and inoffensive fortunes
@@ -86,41 +66,10 @@ capabilities of the original BSD program. For instance, it lacks:
 
 It does, however, provide the most important function: The ability to display
 a random quote from a set of quotes.
-
-License and Copyright Info
-==========================
-
-Copyright (c) 2008 Brian M. Clapper
-
-This is free software, released under the following BSD-like license:
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
- - Redistributions of source code must retain the above copyright notice,
-   this list of conditions and the following disclaimer.
-
- - The end-user documentation included with the redistribution, if any,
-   must include the following acknowlegement:
-
-   This product includes software developed by Brian M. Clapper
-   (bmc@clapper.org, http://www.clapper.org/bmc/). That software is
-   copyright (c) 2008 Brian M. Clapper.
-
-   Alternately, this acknowlegement may appear in the software itself, if
-   and wherever such third-party acknowlegements normally appear.
-
-THIS SOFTWARE IS PROVIDED B{AS IS} AND ANY EXPRESSED OR IMPLIED WARRANTIES,
-INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL BRIAN M.
-CLAPPER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGE.
 """
+
+__docformat__ = 'markdown'
+
 # ---------------------------------------------------------------------------
 # Imports
 # ---------------------------------------------------------------------------
@@ -128,35 +77,30 @@ POSSIBILITY OF SUCH DAMAGE.
 import random
 import os
 import sys
-import cPickle as pickle
+import codecs
+import re
 
-from grizzled.cmdline import CommandLineParser
+from optparse import OptionParser
 
 # ---------------------------------------------------------------------------
 # Exports
 # ---------------------------------------------------------------------------
 
-__all__ = ['main', 'get_random_fortune', 'make_fortune_data_file']
+__all__ = ['main', 'get_random_fortune']
 
 # Info about the module
-__version__   = '1.0'
+__version__   = '1.1.0'
 __author__    = 'Brian M. Clapper'
 __email__     = 'bmc@clapper.org'
 __url__       = 'http://software.clapper.org/fortune/'
-__copyright__ = '2008-2011 Brian M. Clapper'
+__copyright__ = '2008-2019 Brian M. Clapper'
 __license__   = 'BSD-style license'
-
-# ---------------------------------------------------------------------------
-# Internal Constants
-# ---------------------------------------------------------------------------
-
-_PICKLE_PROTOCOL = 2
 
 # ---------------------------------------------------------------------------
 # Functions
 # ---------------------------------------------------------------------------
 
-def random_int(start, end):
+def _random_int(start, end):
     try:
         # Use SystemRandom, if it's available, since it's likely to have
         # more entropy.
@@ -166,10 +110,40 @@ def random_int(start, end):
 
     return r.randint(start, end)
 
+def _read_fortunes(fortune_file):
+    """ Yield fortunes as lists of lines """
+    with codecs.open(fortune_file, mode='r', encoding='utf-8') as f:
+        contents = f.read()
+
+    lines = [line.rstrip() for line in contents.split('\n')]
+
+    delim = re.compile(r'^%$')
+
+    fortunes = []
+    cur = []
+
+    def save_if_nonempty(buf):
+        fortune = '\n'.join(buf)
+        if fortune.strip():
+            fortunes.append(fortune)
+
+    for line in lines:
+        if delim.match(line):
+            save_if_nonempty(cur)
+            cur = []
+            continue
+
+        cur.append(line)
+
+    if cur:
+        save_if_nonempty(cur)
+
+    return fortunes
+
 def get_random_fortune(fortune_file):
     """
     Get a random fortune from the specified file. Barfs if the corresponding
-    ``.dat`` file isn't present.
+    `.dat` file isn't present.
 
     :Parameters:
         fortune_file : str
@@ -178,90 +152,20 @@ def get_random_fortune(fortune_file):
     :rtype:  str
     :return: the random fortune
     """
-    fortune_index_file = fortune_file + '.dat'
-    if not os.path.exists(fortune_index_file):
-        raise ValueError, 'Can\'t find file "%s"' % fortune_index_file
-
-    fortuneIndex = open(fortune_index_file)
-    data = pickle.load(fortuneIndex)
-    fortuneIndex.close()
-    randomRecord = random_int(0, len(data) - 1)
-    (start, length) = data[randomRecord]
-
-    f = open(fortune_file, 'rU')
-    f.seek(start)
-    fortuneCookie = f.read(length)
-    f.close()
-    return fortuneCookie
-
-def _read_fortunes(fortune_file):
-    """ Yield fortunes as lists of lines """
-    result = []
-    start = None
-    pos = 0
-    for line in fortune_file:
-        if line == "%\n":
-            if pos == 0: # "%" at top of file. Skip it.
-                continue
-            yield (start, pos - start, result)
-            result = []
-            start = None
-        else:
-            if start == None:
-                start = pos
-            result.append(line)
-        pos += len(line)
-
-    if result:
-        yield (start, pos - start, result)
-
-def make_fortune_data_file(fortune_file, quiet=False):
-    """
-    Create or update the data file for a fortune cookie file.
-
-    :Parameters:
-        fortune_file : str
-            path to file containing fortune cookies
-        quiet : bool
-            If ``True``, don't display progress messages
-    """
-    fortune_index_file = fortune_file + '.dat'
-    if not quiet:
-        print 'Updating "%s" from "%s"...' % (fortune_index_file, fortune_file)
-
-    data = []
-    shortest = sys.maxint
-    longest = 0
-    for start, length, fortune in _read_fortunes(open(fortune_file, 'rU')):
-        data += [(start, length)]
-        shortest = min(shortest, length)
-        longest = max(longest, length)
-
-    fortuneIndex = open(fortune_index_file, 'wb')
-    pickle.dump(data, fortuneIndex, _PICKLE_PROTOCOL)
-    fortuneIndex.close()
-
-    if not quiet:
-        print 'Processed %d fortunes.\nLongest: %d\nShortest %d' %\
-              (len(data), longest, shortest)
+    fortunes = list(_read_fortunes(fortune_file))
+    randomRecord = _random_int(0, len(fortunes) - 1)
+    return fortunes[randomRecord]
 
 def main():
     """
     Main program.
     """
-    usage = 'Usage: %s [OPTIONS] fortune_file' % os.path.basename(sys.argv[0])
-    arg_parser = CommandLineParser(usage=usage)
-    arg_parser.add_option('-q', '--quiet', action='store_true', dest='quiet',
-                          help="When updating the index file, don't emit " \
-                               "messages.")
-    arg_parser.add_option('-u', '--update', action='store_true', dest='update',
-                          help='Update the index file, instead of printing a '
-                               'fortune.')
+    usage = 'Usage: %prog [OPTIONS] [fortune_file]'
+    arg_parser = OptionParser(usage=usage)
     arg_parser.add_option('-V', '--version', action='store_true',
                           dest='show_version', help='Show version and exit.')
-
-    arg_parser.epilogue = 'If <fortune_file> is omitted, fortune looks at the ' \
-                          'FORTUNE_FILE environment variable for the path.'
+    arg_parser.epilog = 'If fortune_file is omitted, fortune looks at the ' \
+                        'FORTUNE_FILE environment variable for the path.'
 
     options, args = arg_parser.parse_args(sys.argv)
     if len(args) == 2:
@@ -271,17 +175,17 @@ def main():
         try:
             fortune_file = os.environ['FORTUNE_FILE']
         except KeyError:
-            arg_parser.show_usage('Missing fortune file.')
+            print('Missing fortune file.', file=sys.stderr)
+            print(usage, file=sys.stderr)
+            sys.exit(1)
 
     try:
         if options.show_version:
-            print 'fortune, version %s' % __version__
-        elif options.update:
-            make_fortune_data_file(fortune_file)
+            print('fortune, version {}'.format(__version__))
         else:
-            sys.stdout.write(get_random_fortune(fortune_file))
-    except ValueError, msg:
-        print >> sys.stderr, msg
+            print(get_random_fortune(fortune_file))
+    except ValueError as msg:
+        print(msg, file=sys.stderr)
         sys.exit(1)
 
 if __name__ == '__main__':
