@@ -16,16 +16,16 @@ run anywhere there's a Python interpreter.
 
 ## Usage
 
-    fortune [OPTIONS] [/path/to/fortunes]
+    fortune [OPTIONS] [fortune_File]
 
 ### Options
 
-* `-u`, `--update`: Update the index file (see below)
-* `-q`, `--quiet`: When updating the index file, do so quietly.
+- `-h`, `--help`: show help and exit
+- `-V`, `--version`: show version and exit.
 
-If the fortune file path is omitted, *fortune* looks for the path in the
-`FORTUNE_FILE` environment variable. If that environment variable isn't set,
-*fortune* aborts with an error.
+If `fortune_file` is omitted, *fortune* looks at the `FORTUNE_FILE` environment
+variable for the path. If that environment variable isn't set, *fortune*
+aborts with an error.
 
 ### The fortune cookie database
 
@@ -45,28 +45,12 @@ single "%" character. For example:
     Behind every argument is someone's ignorance.
             -- Louis Brandeis
 
-For efficiency and speed, *fortune* uses an index file to record the
-location of each fortune in the database. So, before you can use *fortune*
-with a new (or modified) fortune cookie database, you must generate the
-index. Unlike Arnold's version of *fortune*, you use the *fortune* program
-itself to generate the database, instead of a separate *strfile* program.
-For example, if your fortune cookies are in a file called `fortunes`, you
-generate the database with this command:
-
-    $ fortune -u fortunes
-
-This command will generate a binary `fortunes.dat` index file.
-
-You should run `fortune -u` whenever you change your fortune cookie file.
-
-As noted above, if the fortune file path is omitted, *fortune* looks for
-the path in the `FORTUNE_FILE` environment variable. If that environment
-variable isn't set, *fortune* aborts with an error.
 
 ### Displaying fortunes
 
-Once you have an index file, you can generate a random fortune simply by
-running the *fortune* with the path to your text fortunes file:
+Once you have a fortune file (and, as noted below, you're free to use
+[mine][fortunes], you can generate a random fortune simply by running the 
+*fortune* with the path to your text fortunes file:
 
     fortune /path/to/fortunes
 
@@ -75,6 +59,8 @@ for the path in the `FORTUNE_FILE` environment variable. If that
 environment variable isn't set, *fortune* aborts with an error.
 
 ## Getting and installing *fortune*
+
+**Note:** As of version 1.1.0, *fortune* only supports Python 3.6 or better.
 
 ### Installing via pip
 
@@ -122,8 +108,10 @@ display a random quote from a set of quotes.
 ## My Fortune Cookie Database
 
 I have a fortune cookie file that contains more than 2,800 fortunes I've
-collected, from various sources, over the last 25 years. Feel free to
-download it from <http://github.com/bmc/fortunes/>.
+collected, from various sources, over the last 30 years. Feel free to
+download it from [here][fortunes].
+
+[fortunes]: http://github.com/bmc/fortunes
 
 ## Author
 
@@ -131,13 +119,13 @@ Brian M. Clapper, [bmc@clapper.org][]
 
 ## Copyright
 
-Copyright &copy; 2008-2012 Brian M. Clapper
+Copyright &copy; 2008-2019 Brian M. Clapper
 
 ## License
 
 BSD license. See accompanying [license][] file.
 
-[license]: license.html
+[license]: https://github.com/bmc/fortune/blob/master/LICENSE.md
 [pip]: http://pip-installer.org/
 [PyPI]: http://pypi.python.org/pypi
 [Git repository]: http://github.com/bmc/fortune.git
