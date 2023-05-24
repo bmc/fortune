@@ -13,9 +13,19 @@ $ python setup.py sdist bdist_wheel
 $ twine check dist/*
 ```
 
-At this point, go to <https://test.pypi.org/> and ensure that the package
-is there. If all looks good:
+If all looks good, then:
 
 ```
-$ twine upload dist/*
+$ twine -r pypi upload dist/*
+```
+
+Note: This assumes the existence of something like the following in
+`~/.pypirc`:
+
+```
+[pypi]
+[pypi]
+repository = https://upload.pypi.org/legacy/
+username = __token__
+password = <pypi API token goes here>
 ```
