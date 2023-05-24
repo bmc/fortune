@@ -67,7 +67,7 @@ setup(name             = 'fortune',
       classifiers      = ['Intended Audience :: End Users/Desktop',
                           'Operating System :: OS Independent',
                           'Topic :: Games/Entertainment',
-                          'License :: OSI Approved :: BSD License',
+                          'License :: OSI Approved :: Apache Software License',
                           'Programming Language :: Python',
                           'Topic :: Text Processing :: Filters']
 )

@@ -91,11 +91,11 @@ sys.stdout.reconfigure(encoding='utf-8')
 __all__ = ['main', 'get_random_fortune']
 
 # Info about the module
-__version__   = '1.1.0'
+__version__   = '1.1.1'
 __author__    = 'Brian M. Clapper'
 __email__     = 'bmc@clapper.org'
 __url__       = 'http://software.clapper.org/fortune/'
-__copyright__ = '2008-2019 Brian M. Clapper'
+__copyright__ = '2008-2023 Brian M. Clapper'
 __license__   = 'BSD-style license'
 
 # ---------------------------------------------------------------------------
